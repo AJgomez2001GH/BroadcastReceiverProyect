@@ -1,0 +1,34 @@
+package com.empresa.broadcastreceiverproyect
+
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
+class MainActivity : AppCompatActivity() {
+    // Se declara el receiver del broadcast que vas a escuchar
+    private val receiverBroadcastCambioBateria = BroadcastReceiverBateryInfo()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        // Se inicializa el broadcast receiver
+        // Siempre que cambie la bateria se va ejecutar la clase "Notificacion"
+        val filterBroadcastCambioBateria = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        registerReceiver(receiverBroadcastCambioBateria, filterBroadcastCambioBateria)
+
+
+
+
+    }
+}
